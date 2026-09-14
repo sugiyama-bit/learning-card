@@ -1,0 +1,9 @@
+{
+  "name": "学習カード",
+  "short_name": "学習カード",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#F4F5F1",
+  "theme_color": "#1F5A45",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml" }]
+}

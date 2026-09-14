@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1F5A45">
+<title>学習カード</title>
+<meta name="description" content="今日の学びを、Instagram Stories向けの1枚のカードにする。">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <p class="eyebrow">Learning is training.</p>
+    <h1>今日の学びを、1枚に。</h1>
+  </div>
+</header>
+
+<main class="app">
+  <!-- 1. 入力 -->
+  <section class="panel" id="panel-input">
+    <h2 class="panel-h"><span class="num">1</span>記録する</h2>
+
+    <div class="field">
+      <label>日付</label>
+      <input type="date" id="f-date">
+    </div>
+
+    <div class="field">
+      <label>何を学んだか</label>
+      <div class="chips" id="cat-chips"></div>
+      <input type="text" id="f-cat" placeholder="例：英語（シャドーイング）" maxlength="24">
+    </div>
+
+    <div class="field">
+      <label>学習時間</label>
+      <div class="chips" id="min-chips"></div>
+      <div class="row">
+        <input type="number" id="f-min" min="1" max="720" step="5" inputmode="numeric" placeholder="分">
+        <span class="unit">分</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>今日の学び・気づき <span class="opt">任意</span></label>
+      <textarea id="f-note" rows="3" maxlength="140" placeholder="例：'I'm afraid' は謝罪ではなく前置き。商談で使える。"></textarea>
+      <div class="hint"><span id="note-count">0</span>/140</div>
+    </div>
+
+    <div class="field">
+      <label>どこで学んだか <span class="opt">任意</span></label>
+      <input type="text" id="f-place" placeholder="例：渋谷のシェアラウンジ／自宅／新幹線" maxlength="24">
+    </div>
+
+    <div class="field">
+      <label>写真 <span class="opt">任意・端末内で処理、送信しません</span></label>
+      <div class="row">
+        <input type="file" id="f-photo" accept="image/*">
+        <button type="button" class="ghost" id="photo-clear" hidden>写真を外す</button>
+      </div>
+    </div>
+
+    <button type="button" class="primary" id="btn-make">カードをつくる</button>
+  </section>
+
+  <!-- 2. カード -->
+  <section class="panel" id="panel-card">
+    <h2 class="panel-h"><span class="num">2</span>カード</h2>
+
+    <div class="tabs" id="design-tabs">
+      <button type="button" data-design="editorial" class="on">Editorial<small>学びが主役</small></button>
+      <button type="button" data-design="journey">Journey<small>軌跡と目標</small></button>
+      <button type="button" data-design="performance">Performance<small>記録が主役</small></button>
+    </div>
+
+    <div class="stage">
+      <canvas id="card" width="1080" height="1920" aria-label="生成された学習カード"></canvas>
+      <div class="stage-note" id="stage-note">1で入力して「カードをつくる」を押すと、ここに表示されます</div>
+    </div>
+
+    <div class="toggles">
+      <label><input type="checkbox" id="t-time" checked> 時間</label>
+      <label><input type="checkbox" id="t-day" checked> DAY</label>
+      <label><input type="checkbox" id="t-goal" checked> 目標</label>
+      <label><input type="checkbox" id="t-name" checked> 名前</label>
+      <label><input type="checkbox" id="t-place" checked> 場所</label>
+      <label><input type="checkbox" id="t-tagline" checked> タグライン</label>
+      <span class="sep"></span>
+      <label class="seg"><input type="radio" name="lang" value="ja" id="lang-ja"> JA</label>
+      <label class="seg"><input type="radio" name="lang" value="en" id="lang-en" checked> EN</label>
+    </div>
+
+    <div class="actions">
+      <button type="button" class="primary" id="btn-share">シェア</button>
+      <button type="button" id="btn-save">画像を保存</button>
+    </div>
+    <p class="hint">iPhoneは「シェア」→ Instagram → ストーリーズ。共有シートが出ない端末は「画像を保存」から長押しで保存し、ストーリーズで「写真から追加」。</p>
+  </section>
+
+  <!-- 3. 設定 -->
+  <section class="panel" id="panel-settings">
+    <h2 class="panel-h"><span class="num">3</span>プロフィールと履歴</h2>
+
+    <div class="field">
+      <label>名前・ハンドル</label>
+      <input type="text" id="p-name" placeholder="例：Yuki" maxlength="24">
+    </div>
+    <div class="field">
+      <label>長期目標（カードに出る短い言葉）</label>
+      <input type="text" id="p-goal" placeholder="例：37 SAUNAS BY 37" maxlength="40">
+    </div>
+    <div class="field">
+      <label>今日のDAY番号を合わせる <span class="opt">累計の記録日数を基準に自動。ずらしたい時だけ</span></label>
+      <div class="row">
+        <input type="number" id="p-dayfix" min="1" max="9999" inputmode="numeric" placeholder="自動">
+        <button type="button" class="ghost" id="p-dayfix-clear">自動に戻す</button>
+      </div>
+    </div>
+
+    <div class="stats" id="stats"></div>
+
+    <details>
+      <summary>履歴（<span id="hist-count">0</span>件）</summary>
+      <ul class="hist" id="hist"></ul>
+      <div class="row wrap">
+        <button type="button" class="ghost" id="btn-export">JSONを書き出す</button>
+        <label class="ghost btn-like">JSONを読み込む<input type="file" id="f-import" accept="application/json" hidden></label>
+      </div>
+      <p class="hint">データはこのブラウザの中だけに保存されます。機種変更の前に書き出してください。</p>
+    </details>
+  </section>
+
+  <footer class="foot">
+    <p>入力内容と写真はサーバーに送信されません。計測ツールも入れていません。</p>
+  </footer>
+</main>
+
+<!-- 保存モーダル -->
+<div class="modal" id="modal" hidden>
+  <div class="modal-in">
+    <p class="modal-h">画像を長押しして「写真に追加」</p>
+    <img id="modal-img" alt="学習カード">
+    <div class="row wrap">
+      <a id="modal-dl" class="btn-like" download>ダウンロード</a>
+      <button type="button" class="ghost" id="modal-close">閉じる</button>
+    </div>
+  </div>
+</div>
+
+<script src="cards.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
