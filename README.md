@@ -16,7 +16,7 @@
 GitHub Pages（`main` ブランチ直下）。Cloudflare Pages に移す場合は同じリポジトリを接続し、ビルドコマンドなし・出力ディレクトリ `/` で公開できます。
 
 ## Cloudflare（本番）
-Cloudflare Workers の静的アセット配信で公開しています（`wrangler.jsonc`）。更新手順：
+Cloudflare Workers の静的アセット配信で公開しています（`wrangler.jsonc`）。更新手順：`main` へpushすると Cloudflare Workers Builds が自動でビルド・デプロイします（Settings → Builds でGitHubリポジトリ接続済み）。手動で反映する場合：
 
 ```bash
 npm run deploy
