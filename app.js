@@ -52,7 +52,7 @@
     const cc = $('#cat-chips'); cc.innerHTML = '';
     CATS.forEach(c => { const b = document.createElement('button'); b.type = 'button'; b.textContent = c.ja; b.dataset.ja = c.ja; b.dataset.en = c.en; b.onclick = () => { $('#f-cat').value = currentLang() === 'ja' ? c.ja : c.en; markChips(); }; cc.appendChild(b); });
     const mc = $('#min-chips'); mc.innerHTML = '';
-    MINS.forEach(m => { const b = document.createElement('button'); b.type = 'button'; b.textContent = m >= 60 ? `${m / 60}h${m % 60 ? m % 60 : ''}` : `${m}分`; b.dataset.min = m; b.onclick = () => { $('#f-min').value = m; markChips(); }; mc.appendChild(b); });
+    MINS.forEach(m => { const b = document.createElement('button'); b.type = 'button'; b.textContent = m >= 60 ? `${Math.floor(m / 60)}h${m % 60 ? String(m % 60).padStart(2, '0') : ''}` : `${m}分`; b.dataset.min = m; b.onclick = () => { $('#f-min').value = m; markChips(); }; mc.appendChild(b); });
   }
   function markChips() {
     const v = $('#f-cat').value.trim();

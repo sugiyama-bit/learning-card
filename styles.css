@@ -46,7 +46,7 @@ button.primary{width:100%;border:0;background:var(--accent);color:var(--accent-i
 button.primary:active{transform:translateY(1px)}
 .actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
 .actions button{border:1px solid var(--rule);background:var(--ground);border-radius:10px;padding:14px;font-size:16px;font-weight:700;cursor:pointer}
-.actions button.primary{border:0}
+.actions button.primary{border:0;background:var(--accent);color:var(--accent-ink)}
 button.ghost,.btn-like{border:1px solid var(--rule);background:transparent;border-radius:8px;padding:8px 12px;font-size:13px;cursor:pointer;color:var(--ink-2);text-decoration:none;display:inline-block}
 
 .tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px}
@@ -79,6 +79,7 @@ details summary{cursor:pointer;font-weight:700;font-size:14px;margin-bottom:8px}
 .hist li button.del:hover{color:var(--danger)}
 .foot{font-size:12px;color:var(--ink-3);text-align:center;padding:8px 0}
 
+.modal[hidden]{display:none}
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.72);display:grid;place-items:center;padding:16px;z-index:10}
 .modal-in{background:var(--surface);border-radius:12px;padding:16px;max-width:360px;width:100%;display:grid;gap:12px;justify-items:center}
 .modal-h{margin:0;font-weight:700;font-size:14px}

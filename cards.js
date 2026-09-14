@@ -120,7 +120,7 @@
 
     // category chip
     let y = PH - 20;
-    if (!d.photo) y = 780;
+    if (!d.photo) y = 880;
     ctx.font = `700 30px ${FONT_SANS}`;
     const cw = ctx.measureText(d.category).width + 44;
     ctx.fillStyle = green; ctx.beginPath(); ctx.roundRect(90, y - 44, cw, 56, 8); ctx.fill();
